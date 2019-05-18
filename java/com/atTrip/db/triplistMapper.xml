@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="triplist">
+  <select id="countryDetail" resultType="countryVo">
+  	select * from country where country_no =#{country_no}
+  </select>
+  
+  <select id="cityAll" resultType="cityVo">
+    select * from city
+    <if test="m_city != null or m_style_arr != null">where </if> 
+	    <if test="m_city != null"> 
+	    city_name_kor in
+			<foreach item="item" index="index" collection="m_city" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	<if test="m_city != null and m_style_arr != null"> or </if>
+		<if test="m_style_arr != null"> 
+	    city_style like '%'||#{m_style_arr}||'%'
+		</if>
+    order by city_liketot desc 
+  </select>
+  
+  <select id="cityInCountry" resultType="cityVo">
+    select * from city where country_no = #{country_no}
+  </select>
+  <select id="cityDetail" resultType="cityVo">
+    select * from city where city_no=#{city_no}
+  </select>
+  <select id="pointviewListInCity" resultType="pointviewVo">
+  	select * from pointview where city_no =#{city_no}
+  </select>
+  <select id="pointviewListInCountry" resultType="pointviewVo">
+  	select * from pointview where country_no =#{country_no}
+  </select>
+  <select id="pointviewDetail" resultType="pointviewVo">
+  	select * from pointview where pointview_no =#{pointview_no}
+  </select>
+  
+   <!-- 나라, 도시, 관광지 조회수 증가 -->
+  <update id="hitUpCountry">
+  	update country set country_hit=country_hit+1 where country_no=#{country_no}
+  </update>
+  <update id="hitUpCity">
+  	update city set city_hit=city_hit+1 where city_no=#{city_no}
+  </update>
+  <update id="hitUpPV">
+  	update pointview set pointview_hit=pointview_hit+1 where pointview_no=#{pointview_no}
+  </update>
+  
+  <!-- 도시 리스트에 멤버 정보 가져오는 쿼리문 -->
+  <select id="mInfo" resultType="memberVo">
+	select * from member where m_no=#{m_no}
+  </select>
+  
+  <!-- 도시 이름으로 도시 번호 가져오는 쿼리문 -->
+  <select id="getCountryNo" resultType="java.lang.Integer">
+	select country_no from country where country_name_kor in
+	<foreach item="item" index="index" collection="m_country_name" open="(" separator="," close=")">
+	#{item}
+	</foreach>
+  </select>
+  
+  
+  
+  <!-- 검색 -->
+  <select id="search_city" resultType="cityVo">
+  	select * from city where city_name_kor like '%'||#{keyword}||'%' or city_name_eng like '%'||#{keyword}||'%' 
+  </select>
+  <select id="search_country" resultType="countryVo">
+  	select * from country where country_name_kor like '%'||#{keyword}||'%' or country_name_eng like '%'||#{keyword}||'%' 
+  </select>
+  <select id="search_pointview" resultType="pointviewVo">
+  	select * from pointview where pointview_name_kor like '%'||#{keyword}||'%'
+  </select>
+</mapper>

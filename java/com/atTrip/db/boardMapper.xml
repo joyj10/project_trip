@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+
+  <select id="select" resultType="boardVo">
+		select n,b_no, b_title, m_no,m_name, b_pwd, b_region, b_startday, b_endday,b_content,b_wdate,b_hit from 
+		(select rownum n, b_no, b_title, m_no,m_name, b_pwd, b_region, b_startday, b_endday,b_content,b_wdate,b_hit from
+		(select * from board 
+		<if test="keyword != null and keyword !='' ">where ${item} like '%' || #{keyword} || '%' </if>
+		order by b_no desc) ) where n between #{startRecord} and #{endRecord}
+	</select>
+
+  <select id="detail" resultType="boardVo">
+  	select * from board where b_no=#{b_no}
+  </select>
+   
+  <insert id="insert" parameterType="boardVo">
+		insert into board values ( (select nvl(max(b_no),0)+1 from board),#{b_title},#{m_name},#{b_pwd},#{b_region},#{b_startday},#{b_endday},#{b_content},sysdate,0,#{m_no})
+  </insert>
+  
+  <update id="update">
+  	update board set b_title=#{b_title},b_region=#{b_region},b_startday=#{b_startday},b_endday=#{b_endday},b_content=#{b_content} where b_no=#{b_no}
+  </update>
+  
+  <delete id="delete">
+  	delete board where b_no=#{b_no}
+  </delete>
+  
+  <select resultType="java.lang.Integer" id="count">
+  	select count(*) from board <if test="keyword != null and keyword !='' ">where ${item} like '%' || #{keyword} || '%' </if> 
+  </select>
+  
+  <update id="hitCount">
+  	update board set b_hit=b_hit+1 where b_no=#{b_no}
+  </update>
+  
+  <select id="check" resultType="boardVo">
+  	select * from board where b_no=#{b_no} and b_pwd=#{b_pwd}
+  </select>
+
+</mapper>

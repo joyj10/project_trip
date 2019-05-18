@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="re">
+
+  <select id="select" resultType="commentVo">
+    select * from recomment  where b_no=#{b_no} order by r_level, b_wdate desc , r_step desc
+  </select>
+
+  <insert id="insert">
+  	<!-- insert into recomment values ((select nvl(max(r_no),0)+1 from recomment),#{r_writer},#{r_pwd},#{r_content},sysdate,0,0,#{b_no}) -->
+  	insert into recomment values ((select nvl(max(r_no),0)+1 from recomment),#{r_writer},#{r_pwd},#{r_content},sysdate,#{r_no},(select nvl(max(r_step),-1)+1 from recomment where b_no =#{b_no} ),#{b_no})
+  </insert>
+  
+  <update id="update">
+  update recomment set r_content=#{r_content} where r_no=#{r_no} 
+  </update>
+  
+  <delete id="delete">
+  delete recomment where r_no=#{r_no}
+  </delete>
+    <update id="re_update">
+  	update recomment set r_content=#{r_content} where r_no=#{r_no }and r_level = #{r_level} and r_step = #{r_step} 
+  </update>
+  
+  <delete id="re_delete">
+  	delete recomment where r_no = #{r_no} and r_level = #{r_level} and r_step = #{r_step}
+  </delete> 
+  
+</mapper>

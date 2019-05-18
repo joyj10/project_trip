@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="like">
+  <insert id="insert">
+  	insert into l_like values( (select nvl(max(l_like_no),0) from l_like)+1,#{m_no},#{pointview_no},#{pointview_name},#{pointview_topinfo},#{pointview_hashtag},#{pointview_addr},#{pointview_image1},0,#{pointview_name_eng},#{city_no},#{pointview_location_X},#{pointview_location_Y})
+  </insert>
+  <delete id="delete">
+  	delete l_like where m_no = #{m_no} and pointview_no = #{pointview_no}
+  </delete>
+  <select id="likeListMember" resultType="java.lang.Integer">
+  	select pointview_no from l_like where m_no=#{m_no} 
+  	<if test="city_no>0">
+  		and city_no=#{city_no}
+  	</if>
+  </select>
+</mapper>

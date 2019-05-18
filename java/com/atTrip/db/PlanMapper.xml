@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="plan">
+	<select id="selectCity" resultType="cityVo">
+		select * from city order by city_name_kor
+	</select>
+	 
+	<select id="selectPlan" resultType="planVo">
+	    select * from plan where m_no = #{m_no} order by plan_no
+	</select>
+	<select id="selectPlan1" resultType="planVo">
+	    select * from plan where plan_no= #{plan_no}
+	</select>
+	<delete id="deleteplan">
+		delete plan where plan_no = #{plan_no} 
+	</delete>
+	<select id="selectDetail" resultType="planVo">
+	    select * from plan where plan_no = #{plan_no}
+	</select>
+	<select id="selectMaxPlanNo" resultType="java.lang.Integer">
+	    select nvl(max(plan_no),0) from plan
+	</select>
+	<select id="selectMaxNo" resultType="java.lang.Integer">
+	    select max(city_no) from city
+	</select>
+	<select id="selectname" resultType="cityVo"  parameterType="int">
+	    select * from city where city_no = #{city_no}
+	</select>
+	
+	<insert id="insertPlan" >
+	 	insert into plan values ((select nvl(max(PLAN_NO),0) from plan)+1,#{plan_name},#{m_no},#{city_no},#{city_name},#{plan_startday},#{plan_endday},#{plan_image},#{plan_day})
+	</insert>
+	<update id="updatePlan" >
+  	update plan set plan_name=#{plan_name},m_no=#{m_no},city_no=#{city_no},city_name=#{city_name},plan_startday=#{plan_startday},plan_endday=#{plan_endday},plan_image=#{plan_image},plan_day=#{plan_day} where plan_no=#{plan_no}
+  </update>
+	<select id="selectMaxPlannoteNo" resultType="java.lang.Integer">
+		select nvl(max(plannote_no),1)+1 from plannote
+	</select>
+			<insert id="insertPlannote" >
+		   insert into plannote values ((select nvl(max(PLANNOTE_NO),0) from plannote)+1,#{plan_no},#{pointview_no},#{pointview_name},#{pointview_addr},#{plannote_image},#{plannote_startday},#{plannote_endday},#{plannote_datecnt},#{plannote_order},#{plan_name},#{city_name},#{plan_day},#{plannote_location_x},#{plannote_location_y})
+			</insert>
+			<select id="selectPlanNote" resultType="planNoteVo">
+			    select * from plannote
+			  </select>
+			  <select id="selectPlanNoteDay" resultType="planNoteVo">
+			    select * from plannote where plan_no = #{plan_no} and plannote_datecnt = #{plannote_datecnt} order by plannote_order
+			  </select>
+			  <select id="selectlike" resultType="likeVo">
+			    select * from l_like where m_no = #{m_no} and city_no = #{city_no}
+			  </select>
+			  <delete id="deletenote">
+				  delete plannote where plan_no = #{plan_no} and plannote_datecnt = #{plannote_datecnt}
+				</delete>
+				<delete id="deletenote1">
+				  delete plannote where plan_no = #{plan_no}
+				</delete>
+			  
+<select id="selectpoint" resultType="pointviewVo">
+	    select * from pointview where city_no = #{city_no}
+	  </select>
+</mapper>
+
