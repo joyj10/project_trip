@@ -243,7 +243,7 @@ $(function() {
 	});
 	
 	var cityEng = $("#cityEng").html();
-	var weatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityEng+"&units=metric&appid=8c9f3ca746ff1b87bdf60f97381bf51e";
+	var weatherURL = "http://api.openweathermap.org/data/2.5/weather?q="+cityEng+"&units=metric&appid=apikey";
 	
 	
 	
@@ -367,7 +367,7 @@ function initMap() {
   });
 }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACdd9adVEmehZvnhemui7_lLOdKBgWXAM&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=apikey&callback=initMap" async defer></script>
 </head>	
 
 <body>
