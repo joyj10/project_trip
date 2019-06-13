@@ -16,9 +16,9 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDao dao;
 
-//	public void setDao(BoardDao dao) {
-//		this.dao = dao;
-//	}
+	public void setDao(BoardDao dao) {
+		this.dao = dao;
+	}
 	
 	public static int pageSize = 5;
 	public static int totalPage = 1;
@@ -55,7 +55,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVo> list(HashMap map)throws Exception {
 		
-		/* ÆäÀÌÁöÀÇ ½ºÅ¸Æ® ¿£µå*/
+		/* Ã†Ã¤Ã€ÃŒÃÃ¶Ã€Ã‡ Â½ÂºÃ…Â¸Ã†Â® Â¿Â£ÂµÃ¥*/
 	    int startRecord = (pageNumber -1)*pageSize+1;
 	    int endRecord = startRecord + pageSize-1; 
 	    if (endRecord > totalRecord ) {
