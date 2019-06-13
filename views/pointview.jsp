@@ -614,7 +614,7 @@ if(x!="")
 }
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACdd9adVEmehZvnhemui7_lLOdKBgWXAM&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=scretkey&callback=initMap" async defer></script>
 
 <footer>
 	<div class="footer-center">
